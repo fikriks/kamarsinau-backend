@@ -8,6 +8,8 @@ const PREFIX = `/api/v1`;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const authRouter = require("./routes/auth");
+const courseRouter = require("./routes/course");
+const moduleRouter = require("./routes/module");
 
 var app = express();
 
@@ -28,5 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use(`${PREFIX}/`, authRouter);
+app.use(`${PREFIX}/courses`, courseRouter);
+app.use(`${PREFIX}/modules`, moduleRouter);
 
 module.exports = app;
