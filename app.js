@@ -11,6 +11,7 @@ const authRouter = require("./routes/auth");
 const courseRouter = require("./routes/course");
 const moduleRouter = require("./routes/module");
 const lessonRouter = require("./routes/lesson");
+const progressRouter = require("./routes/progress");
 
 var app = express();
 
@@ -34,5 +35,7 @@ app.use(`${PREFIX}/`, authRouter);
 app.use(`${PREFIX}/courses`, courseRouter);
 app.use(`${PREFIX}/modules`, moduleRouter);
 app.use(`${PREFIX}/lessons`, lessonRouter);
+app.use(`${PREFIX}/lessons`, lessonRouter);
+app.use(`${PREFIX}/progress`, progressRouter);
 
 module.exports = app;
