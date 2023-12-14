@@ -10,6 +10,7 @@ var usersRouter = require('./routes/users');
 const authRouter = require("./routes/auth");
 const courseRouter = require("./routes/course");
 const moduleRouter = require("./routes/module");
+const lessonRouter = require("./routes/lesson");
 
 var app = express();
 
@@ -32,5 +33,6 @@ app.use('/', indexRouter);
 app.use(`${PREFIX}/`, authRouter);
 app.use(`${PREFIX}/courses`, courseRouter);
 app.use(`${PREFIX}/modules`, moduleRouter);
+app.use(`${PREFIX}/lessons`, lessonRouter);
 
 module.exports = app;
