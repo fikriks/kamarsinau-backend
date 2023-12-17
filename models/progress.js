@@ -13,13 +13,17 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Progress.init({
-    userId: DataTypes.INTEGER,
-    lessonId: DataTypes.INTEGER,
-    completed: DataTypes.BOOLEAN
-  }, {
-    sequelize,
-    modelName: 'Progress',
-  });
+  Progress.init(
+    {
+      userId: DataTypes.INTEGER,
+      courseId: DataTypes.INTEGER,
+      moduleId: DataTypes.INTEGER,
+      completed: DataTypes.BOOLEAN,
+    },
+    {
+      sequelize,
+      modelName: "Progress",
+    }
+  );
   return Progress;
 };

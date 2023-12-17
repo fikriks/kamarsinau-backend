@@ -13,13 +13,16 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Module.init({
-    moduleName: DataTypes.STRING,
-    description: DataTypes.STRING,
-    courseId: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'Module',
-  });
+  Module.init(
+    {
+      moduleName: DataTypes.STRING,
+      content: DataTypes.TEXT("long"),
+      courseId: DataTypes.INTEGER,
+    },
+    {
+      sequelize,
+      modelName: "Module",
+    }
+  );
   return Module;
 };
