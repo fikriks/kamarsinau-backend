@@ -11,13 +11,15 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        references: { model: "users", key: "id" },
       },
-      lessonId: {
+      courseId: {
         type: Sequelize.INTEGER,
+        references: { model: "courses", key: "id" },
       },
-      percentageCompleted: {
+      moduleId: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        references: { model: "modules", key: "id" },
       },
       completed: {
         type: Sequelize.BOOLEAN,
