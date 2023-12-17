@@ -1,4 +1,6 @@
 const Course = require("../models").Course;
+const CourseInstructor = require("../models").CourseInstructor;
+const User = require("../models").User;
 
 // Create a new course
 const createCourse = async (req, res) => {
@@ -25,7 +27,24 @@ const createCourse = async (req, res) => {
 // Get all courses
 const getAllCourses = async (req, res) => {
   try {
-    const courses = await Course.findAll();
+    Course.hasMany(CourseInstructor);
+    CourseInstructor.belongsTo(Course);
+
+    User.hasMany(CourseInstructor);
+    CourseInstructor.belongsTo(User);
+
+    const courses = await Course.findAll({
+      include: [
+        {
+          model: CourseInstructor,
+          include: [
+            {
+              model: User,
+            },
+          ],
+        },
+      ],
+    });
     res.status(200).json({ success: true, message: 'Courses retrieved successfully', data: courses });
   } catch (err) {
     res
@@ -33,7 +52,7 @@ const getAllCourses = async (req, res) => {
       .json({
         success: false,
         message: "Failed to retrieve courses",
-        error: error.message,
+        error: err.message,
       });
   }
 };

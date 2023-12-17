@@ -1,24 +1,39 @@
-const { Progress, User } = require("../models");
+const { Progress, User, Module, CourseStudent, Course } = require("../models");
 
 const getStudentLearningProgress = async (req, res) => {
   try {
-    const studentId = req.params.studentId;
-    const studentProgress = await Progress.findAll({
-      where: { userId: studentId }, 
-      include: [{ model: User }],
-    });
+    const courseId = req.params.courseId;
 
-    if (!studentProgress || studentProgress.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Student progress not found or empty",
-      });
-    }
+    CourseStudent.belongsTo(User);
+    CourseStudent.belongsTo(Course);
+
+    Course.hasMany(Module);
+    Course.hasMany(Progress);
+
+    const courseStudent = await CourseStudent.findAll({
+      where: { courseId: courseId },
+      include: [
+        {
+          model: User
+        },
+        {
+          model: Course,
+          include: [
+            {
+              model: Module
+            },
+            {
+              model: Progress
+            }
+          ]
+        }
+      ],
+    });
 
     res.status(200).json({
       success: true,
       message: "Student learning progress retrieved successfully",
-      data: studentProgress,
+      data: courseStudent,
     });
   } catch (error) {
     res.status(500).json({
@@ -29,6 +44,24 @@ const getStudentLearningProgress = async (req, res) => {
   }
 };
 
+const addProgress = async (req, res) => {
+  try {
+    const addProgress = await Progress.create(req.body);
+    res.status(201).json({
+      success: true,
+      message: "Progress created successfully",
+      data: addProgress,
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: "Failed to add the progress",
+      error: err.message,
+    });
+  }
+};
+
 module.exports = {
   getStudentLearningProgress,
+  addProgress,
 };
