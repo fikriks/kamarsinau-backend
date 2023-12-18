@@ -108,10 +108,38 @@ const deleteUserById = async (req, res) => {
   }
 };
 
+
+const findInstructorByLevel = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: { level: req.params.level, role: "pengajar" },
+    });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User retrieved successfully",
+      data: user,
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: "Failed to delete the user",
+      error: err.message,
+    });
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
   updateUserById,
   deleteUserById,
+  findInstructorByLevel,
 };

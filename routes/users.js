@@ -13,4 +13,6 @@ router.put("/:id", userController.updateUserById);
 // Delete a user by ID
 router.delete("/:id", userController.deleteUserById);
 
+router.get("/teacher/:level", userController.findInstructorByLevel);
+
 module.exports = router;
