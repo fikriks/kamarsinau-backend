@@ -60,7 +60,7 @@ module.exports = {
         name: name,
         email: email,
         password: bcrypt.hashSync(password),
-        role: "student",
+        role: "siswa",
         level: level,
       });
 
