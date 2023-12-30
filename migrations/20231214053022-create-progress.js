@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -12,14 +12,20 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         references: { model: "users", key: "id" },
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
       courseId: {
         type: Sequelize.INTEGER,
         references: { model: "courses", key: "id" },
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
       moduleId: {
         type: Sequelize.INTEGER,
         references: { model: "modules", key: "id" },
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
       completed: {
         type: Sequelize.BOOLEAN,
@@ -35,6 +41,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Progresses');
-  }
+    await queryInterface.dropTable("Progresses");
+  },
 };
