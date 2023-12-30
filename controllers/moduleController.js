@@ -1,4 +1,11 @@
-const { Module, Course, Progress, CourseStudent } = require("../models");
+const {
+  Module,
+  Course,
+  Progress,
+  CourseStudent,
+  Question,
+  QuestionStudent,
+} = require("../models");
 const { Op } = require("sequelize");
 
 const createModule = async (req, res) => {
@@ -21,13 +28,11 @@ const createModule = async (req, res) => {
 const getAllModules = async (req, res) => {
   try {
     const modules = await Module.findAll();
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Modules retrieved successfully",
-        data: modules,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Modules retrieved successfully",
+      data: modules,
+    });
   } catch (err) {
     res.status(500).json({
       success: false,
@@ -65,9 +70,9 @@ const getModuleByCourseId = async (req, res) => {
       where: { courseId: req.params.id },
       include: [
         {
-          model: Progress
-        }
-      ]
+          model: Progress,
+        },
+      ],
     });
     if (!module) {
       return res
@@ -93,6 +98,9 @@ const getModuleByCourseIdAndStudentId = async (req, res) => {
     Module.belongsTo(Course);
 
     Course.hasMany(CourseStudent);
+    Course.hasMany(Question);
+
+    Question.hasMany(QuestionStudent);
 
     const module = await Module.findAll({
       where: { courseId: req.params.id },
@@ -106,8 +114,17 @@ const getModuleByCourseIdAndStudentId = async (req, res) => {
             {
               model: CourseStudent,
               where: {
-                userId: req.params.studentId
-              }
+                userId: req.params.studentId,
+              },
+              model: Question,
+              where: {
+                courseId: req.params.id,
+              },
+              include: [
+                {
+                  model: QuestionStudent,
+                },
+              ],
             },
           ],
         },
